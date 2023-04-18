@@ -1,0 +1,68 @@
+@extends('layout')
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    @section('content')
+        <h1>Mes persos</h1>
+        <div class="displayFlex">
+            @foreach ($perso as $key => $personnage)
+                @if ($key > 2 && $key % 3 == 0)
+                    </div>
+                    <div class="displayFlex">
+                @endif
+                <div class="personnage border1">
+                    <div class="bloc1">
+                        <img src="mage-wow.png" width="100%" height="38%">
+                    </div>
+                    <div class="bloc2">
+                        <p class="namePerso">{{ $personnage->name_perso }}</p>
+                        
+                        <p>Type : {{ $personnage->type }}</p>
+                        <p>Magie : {{ $personnage->mage_perso }}</p>
+                        <p>Force : {{ $personnage->for_perso }}</p>
+                        <p>Intelligence : {{ $personnage->int_perso }}</p>
+                        <p>Agilité : {{ $personnage->agi_perso }}</p>
+                        <p>PV : {{ $personnage->pv_perso }}</p>
+                        <br>
+                        <p>Description : {{ $personnage->content_perso }}</p>
+        
+                        <form method="POST" action="{{ url('listePerso/' . $personnage->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">❌ Supprimer mon perso</button>
+                        </form>
+                        <h3>Modifier</h3>
+                        <form action="{{ url('listePerso', $personnage->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <label for="name_perso">Nom du personnage:</label>
+                            <input type="text" name="name_perso" value="{{ $personnage->name_perso }}">
+                            <label for="type">Type:</label>
+                            <input type="text" name="type" value="{{ $personnage->type }}">
+                            <br>
+                            <label for="content_perso">Description:</label>
+                            <input type="text" name="content_perso" value="{{ $personnage->content_perso }}">
+                            <button type="submit">Modifier</button>
+                        </form>
+                    </div>
+                </div>
+                <br>
+            @endforeach
+        </div>
+        
+
+        @endsection
+
+</body>
+
+</html>
